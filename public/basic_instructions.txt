@@ -1,0 +1,28 @@
+php artisan make:controller PostsController
+
+//use --resource to automatically create basic crud methods in controller
+
+php artisan make:controller PostController --resource
+
+//use -m to create the migration file
+
+php artisan make:model Post -m
+
+//add fields to the migration file itself
+
+//to populate and use the model right away use tinker
+
+php artisan tinker
+
+>>> $test = new Arr\Post();
+>>> $test->title = 'A Post Title';
+>>> $test->body = 'The Body text for the post';
+>>> $test->save(); //should return true if db updated
+
+//route
+//if controller was made with the --resource flag, add this to routes/web.php
+
+Route::resource('posts', 'postsController');
+
+//use route:list to see all routes 
+php artisan route:list

@@ -3,6 +3,8 @@
 @section('content')
 
     <h1>{{$article->title}}</h1>
+    <img style="width:100%" src="/storage/article_images/{{$article->article_image}}">
+    <br><br>
     <div>
         {!!$article->body!!}
    </div>

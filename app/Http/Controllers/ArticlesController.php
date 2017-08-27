@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Article;
 
@@ -51,13 +51,34 @@ class ArticlesController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
-            'body' => 'required'
+            'body' => 'required',
+            'article_image' => 'image|nullable|max:1999'
         ]);
+
+        //Handle Image Upload
+        if($request->hasFile('article_image')){
+            $filenameWithExt = $request->file('article_image')->getClientOriginalName();
+            //get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME );
+            //get just extension
+            $extention = $request->file('article_image')->getClientOriginalExtension();
+            //file name to stor
+            $fileNameToStore = $filename.'_'.time(). '.' .$extention;
+            //upload Image
+            $path = $request->file('article_image')->storeAs('public/article_images', $fileNameToStore );
+
+        } else {
+             //change this to not use image if not saved
+            $fileNameToStore = 'noimage.jpg';
+        }
+
+
         //create article
         $article = new Article;
         $article->title = $request->input('title');
         $article->body = $request->input('body');
         $article->user_id = auth()->user()->id;
+        $article->article_image = $fileNameToStore;
         $article->save();
 
         return redirect('/articles')->with('success', 'article created');
@@ -106,10 +127,29 @@ class ArticlesController extends Controller
             'title' => 'required',
             'body' => 'required'
         ]);
+
+        //Handle Image Upload
+
+        if($request->hasFile('article_image')){
+            $filenameWithExt = $request->file('article_image')->getClientOriginalName();
+            //get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME );
+            //get just extension
+            $extention = $request->file('article_image')->getClientOriginalExtension();
+            //file name to stor
+            $fileNameToStore = $filename.'_'.time(). '.' .$extention;
+            //upload Image
+            $path = $request->file('article_image')->storeAs('public/article_images', $fileNameToStore );
+
+        } 
+
         //create article
         $article = Article::find($id);
         $article->title = $request->input('title');
         $article->body = $request->input('body');
+        if($request->hasFile('article_image')){
+            $article->article_image = $fileNameToStore;
+        }
         $article->save();
 
         return redirect('/articles')->with('success', 'article updated');
@@ -128,6 +168,11 @@ class ArticlesController extends Controller
         //check for correct user
         if(auth()->user()->id !== $article->user_id){
             return redirect('/articles')->with('error', 'Unauthorized Page');
+        }
+
+        if($article->cover_image != 'noimage.jpg'){
+            //delete image
+            Storage::delete('public/article_images/' . $article->article_image);
         }
         
         $article->delete();

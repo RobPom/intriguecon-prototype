@@ -27,7 +27,15 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+     //table name
+     protected $table = 'users';
+
+     //Primary Key
+     public $primaryKey = 'id';
+
+
     public function articles(){
         return $this->hasMany('App\Article');
     }
+
 }

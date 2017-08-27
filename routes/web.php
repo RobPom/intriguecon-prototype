@@ -16,6 +16,7 @@ Route::get('/about', 'PagesController@about' );
 Route::get('/services', 'PagesController@services' );
 
 Route::resource('articles', 'ArticlesController');
+Route::resource('games', 'GamesController');
 
 /* 
 Route::get('/users/{name}/{id}', function($name, $id){

@@ -17,6 +17,7 @@ Route::get('/services', 'PagesController@services' );
 
 Route::resource('articles', 'ArticlesController');
 Route::resource('games', 'GamesController');
+Route::resource('schedules', 'SchedulesController');
 
 /* 
 Route::get('/users/{name}/{id}', function($name, $id){

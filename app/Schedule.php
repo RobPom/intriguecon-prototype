@@ -11,4 +11,8 @@ class Schedule extends Model
     //Primary Key
     public $primaryKey = 'id';
 
+    public function timeblocks() 
+    {
+        return $this->hasMany('App\Timeblock');
+    }
 }

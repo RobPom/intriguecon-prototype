@@ -14,6 +14,7 @@
 Route::get('/', 'PagesController@index' );
 Route::get('/about', 'PagesController@about' );
 Route::get('/services', 'PagesController@services' );
+Route::get('/calendar/{id}', 'TimeblocksController@create' );
 
 Route::resource('articles', 'ArticlesController');
 Route::resource('games', 'GamesController');

@@ -13,7 +13,7 @@ php artisan make:model Post -m
 //to populate and use the model right away use tinker
 
 php artisan tinker
-
+run 
 >>> $test = new Arr\Post();
 >>> $test->title = 'A Post Title';
 >>> $test->body = 'The Body text for the post';
@@ -26,3 +26,6 @@ Route::resource('posts', 'postsController');
 
 //use route:list to see all routes 
 php artisan route:list
+
+npm run dev
+npm run watch

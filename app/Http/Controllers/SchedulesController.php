@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use App\Timeblocks;
 use App\Schedule;
+use DateTime;
+use DatePeriod;
+use DateInterval;
 
 class SchedulesController extends Controller
 {
@@ -86,8 +90,13 @@ class SchedulesController extends Controller
      */
     public function show($id)
     {
-        $event = Schedule::find($id);
-        return view('schedules.show')->with('event', $event);
+        $schedule = Schedule::findOrFail($id);
+        
+        $begin = new DateTime($schedule->start);
+        $end = new DateTime($schedule->end);
+        $end = $end->modify( '+1 day' ); 
+        $daterange = new DatePeriod($begin, new DateInterval('P1D'), $end);
+        return view('timeblocks.show')->with('schedule', $schedule)->with('daterange', $daterange);
     }
 
     /**

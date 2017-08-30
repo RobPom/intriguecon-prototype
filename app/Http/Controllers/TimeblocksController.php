@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Schedule;
+use DateTime;
+use Carbon\Carbon;
 
 class TimeblocksController extends Controller
 {
@@ -23,9 +25,9 @@ class TimeblocksController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create($id)
-    {
+    {   $now = new DateTime();
         $event = Schedule::findOrFail($id);
-        return view('timeblocks.create')->with('event', $event);
+        return view('timeblocks.create')->with('event', $event)->with('now', $now);
         
         
     }
@@ -49,7 +51,14 @@ class TimeblocksController extends Controller
      */
     public function show($id)
     {
-        //
+        $schedule = Schedule::findOrFail($id);
+        $start = new Carbon($schedule->start);
+        $end = new Carbon($schedule->end);
+       
+        $everydate = generateDateRange($start, $end);
+        $allsessions = $schedule->timeblocks;
+
+        return view('timeblocks.show')->with('schedule', $schedule)->with('everydate', $everydate)->with('allsessions', $allsessions);
     }
 
     /**

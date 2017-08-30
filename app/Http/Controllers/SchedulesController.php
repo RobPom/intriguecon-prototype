@@ -92,11 +92,8 @@ class SchedulesController extends Controller
     {
         $schedule = Schedule::findOrFail($id);
         
-        $begin = new DateTime($schedule->start);
-        $end = new DateTime($schedule->end);
-        $end = $end->modify( '+1 day' ); 
-        $daterange = new DatePeriod($begin, new DateInterval('P1D'), $end);
-        return view('timeblocks.show')->with('schedule', $schedule)->with('daterange', $daterange);
+        return view('schedules.show')->with('schedule', $schedule);
+        
     }
 
     /**

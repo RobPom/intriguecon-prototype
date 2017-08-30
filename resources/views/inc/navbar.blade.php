@@ -27,7 +27,7 @@
               <li><a href="/about">About</a></li>
               <li><a href="/games">Games</a></li>
               <li><a href="/articles">Articles</a></li>
-              <li><a href="/schedules">Events</a></li>
+              <li><a href="/events">Events</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->

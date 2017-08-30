@@ -10,7 +10,7 @@
                         <img style="width:100%" src="/storage/event_images/{{$event->event_image}}">
                     </div>
                     <div class="col-md-10 col-sm-10">
-                        <h3><a href="/schedules/{{$event->id}}">{{$event->name}}</a></h3>
+                        <h3><a href="/events/{{$event->id}}">{{$event->name}}</a></h3>
                     </div>
                 </div>
             </div>
@@ -21,7 +21,7 @@
         <p>No Events found</p>
     @endif
      @if(!Auth::guest())
-            <a href="/schedules/create" class="btn btn-primary pull-right">New Convention</a>
+            <a href="/events/create" class="btn btn-primary pull-right">New Convention</a>
 
     @endif
 @endsection

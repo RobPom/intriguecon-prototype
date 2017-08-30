@@ -12,19 +12,17 @@
 */
 
 Route::get('/', 'PagesController@index' );
+Route::get('/home', 'PagesController@index' );
+Route::get('/main', 'PagesController@index' );
 Route::get('/about', 'PagesController@about' );
 Route::get('/services', 'PagesController@services' );
-Route::get('/calendar/{id}', 'TimeblocksController@create' );
+
+Route::get('/calendars/{id}', 'TimeblocksController@show' );
+Route::get('/calendars/{scheduleid}/create', 'TimeblocksController@create' );
 
 Route::resource('articles', 'ArticlesController');
 Route::resource('games', 'GamesController');
-Route::resource('schedules', 'SchedulesController');
+Route::resource('events', 'SchedulesController');
 
-/* 
-Route::get('/users/{name}/{id}', function($name, $id){
-    return 'This is user ' .$name .' with an id of '.$id;
-}); 
-*/
 Auth::routes();
-
 Route::get('/dashboard', 'DashboardController@index');

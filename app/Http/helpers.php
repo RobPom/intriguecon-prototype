@@ -1,4 +1,15 @@
 <?php
+use App\Schedule;
+
+
+function getEveryDate($id){
+    $schedule = Schedule::findOrFail($id);
+    $start = new Carbon($schedule->start);
+    $end = new Carbon($schedule->end);
+    $everydate = generateDateRange($start, $end);
+    return $everydate;
+}
+
 function generateDateRange(Carbon\Carbon $start_date, Carbon\Carbon $end_date)
 {
     $dates = [];

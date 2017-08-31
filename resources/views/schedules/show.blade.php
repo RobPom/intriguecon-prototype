@@ -31,7 +31,7 @@
 
     @if(!Auth::guest())
 
-        <a href="/events/{{$schedule->id}}/edit" class="btn btn-default">Edit</a>
+        <a href="/events/{{$schedule->id}}/edit" class="btn btn-default">Edit Event</a>
         {!!Form::open(['action' => ['SchedulesController@destroy', $schedule->id], 'method' => 'POST', 'class' => 'pull-right' ])!!}
             {{Form::hidden('_method', 'DELETE')}}
             {{Form::submit('Delete', ['class' => 'btn btn-danger'])}}
@@ -39,7 +39,7 @@
 
     @endif
 
-<a href="/calendars/{{$schedule->id}}/create" class="btn btn-default" > Add a calendar</a>
+<a href="/calendars/{{$schedule->id}}/modify" class="btn btn-default" > Edit Calendar</a>
 
 @endsection
 

@@ -18,7 +18,11 @@ Route::get('/about', 'PagesController@about' );
 Route::get('/services', 'PagesController@services' );
 
 Route::get('/calendars/{id}', 'TimeblocksController@show' );
-Route::get('/calendars/{scheduleid}/create', 'TimeblocksController@create' );
+Route::get('/calendars/{scheduleid}/modify', 'TimeblocksController@create' );
+Route::post('/calendars/{scheduleid}/modify', 'TimeblocksController@store');
+Route::get('/calendars/{scheduleid}/edit', 'TimeblocksController@edit');
+Route::put('/calendars/{id}', 'TimeblocksController@update' );
+Route::delete('/calendars/{timeblockid}/delete', 'TimeblocksController@destroy');
 
 Route::resource('articles', 'ArticlesController');
 Route::resource('games', 'GamesController');

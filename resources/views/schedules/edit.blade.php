@@ -7,16 +7,20 @@
             {{Form::Label('name', 'Event Name')}}
             {{Form::text('name', $event->name, ['class' => 'form-control', 'placeholder' => 'Enter the name of the Event'])}}
         </div>
-        <div class="form-group">
-            {{Form::Label('start', 'Start Date')}}
-            {{Form::date('start', $event->start)}}
 
+        <div class="form-group">
+            {{Form::Label('startdate', 'Start Date')}}
+            {{Form::date('startdate', \Carbon\Carbon::now())}}
+            {{Form::Label('starttime', 'Time')}}
+            {{Form::time('starttime', date('H:i:s', '43200'))}}
         </div>
         <div class="form-group">
-            {{Form::Label('end', 'End Date')}}
-            {{Form::date('end', $event->end)}}
-
+            {{Form::Label('enddate', 'End Date')}}
+            {{Form::date('enddate', \Carbon\Carbon::now())}}
+            {{Form::Label('endtime', 'Time')}}
+            {{Form::time('endtime', date('H:i:s', '57600'))}}
         </div>
+        
         <div class="form-group">
             {{Form::Label('description', 'Description')}}
             {{Form::textarea('description', $event->description, ['id' => 'article-ckeditor', 'class' => 'form-control', 'placeholder' => 'A longer description of the game'])}}

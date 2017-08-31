@@ -42,8 +42,10 @@ class SchedulesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'start' => 'required',
-            'end' => 'required',
+            'starttime' => 'required',
+            'startdate' => 'required',
+            'endtime' => 'required',
+            'enddate' => 'required',
             'description' => 'required',
             'game_image' => 'image|nullable|max:1999'
         ]);
@@ -72,14 +74,17 @@ class SchedulesController extends Controller
         $schedule->description = $request->input('description');
 
         //set datetime for start and end
-        $schedule->start = $request->input('start');
-        $schedule->end = $request->input('end');
+        $start =  $request->input('startdate'). " " .$request->input('starttime');
+        $end =  $request->input('enddate'). " " .$request->input('endtime');
+        $schedule->start = $start;
+        $schedule->end = $end;
+
         $schedule->created_by = auth()->user()->name;
         $schedule->edited_by = "none";
         $schedule->event_image = $fileNameToStore;
         $schedule->save();
 
-        return redirect('/schedules/'. $schedule->id)->with('success', 'event created');
+        return redirect('/events/'. $schedule->id)->with('success', 'event created');
     }
 
     /**
@@ -104,7 +109,8 @@ class SchedulesController extends Controller
      */
     public function edit($id)
     {
-        $event = Schedule::find($id);    
+        $event = Schedule::find($id);
+        $startdate = new DateTime($event->start);  
         return view('schedules.edit')->with('event', $event);
     }
 
@@ -119,8 +125,10 @@ class SchedulesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'start' => 'required',
-            'end' => 'required',
+            'starttime' => 'required',
+            'startdate' => 'required',
+            'endtime' => 'required',
+            'enddate' => 'required',
             'description' => 'required',
             'game_image' => 'image|nullable|max:1999'
         ]);
@@ -148,16 +156,19 @@ class SchedulesController extends Controller
         $schedule->name = $request->input('name');
         $schedule->description = $request->input('description');
 
-        //set datetime for start and end
-        $schedule->start = $request->input('start');
-        $schedule->end = $request->input('end');
+         //set datetime for start and end
+         $start =  $request->input('startdate'). " " .$request->input('starttime');
+         $end =  $request->input('enddate'). " " .$request->input('endtime');
+         $schedule->start = $start;
+         $schedule->end = $end;
+
         $schedule->edited_by = auth()->user()->name;
         if($request->hasFile('event_image')){
             $schedule->event_image = $fileNameToStore;
         }   
         $schedule->save();
 
-        return redirect('/schedules/'. $schedule->id)->with('success', 'event updated');
+        return redirect('/events/'. $schedule->id)->with('success', 'event updated');
     }
 
     /**
@@ -176,6 +187,6 @@ class SchedulesController extends Controller
         }
         
         $event->delete();
-        return redirect('/schedules')->with('success', 'Event Removed');
+        return redirect('/events')->with('success', 'Event Removed');
     }
 }

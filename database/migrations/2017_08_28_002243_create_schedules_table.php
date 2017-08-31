@@ -17,8 +17,8 @@ class CreateSchedulesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->mediumText('description');
-            $table->date('start');
-            $table->date('end');
+            $table->datetime('start');
+            $table->datetime('end');
             $table->string('created_by');
             $table->string('edited_by');
             $table->string('event_image');

@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Schedule;
+use App\Timeblock;
 use DateTime;
-use Carbon\Carbon;
+use Carbon;
 
 class TimeblocksController extends Controller
 {
@@ -25,11 +26,19 @@ class TimeblocksController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create($id)
-    {   $now = new DateTime();
-        $event = Schedule::findOrFail($id);
-        return view('timeblocks.create')->with('event', $event)->with('now', $now);
-        
-        
+    {   $schedule = Schedule::findOrFail($id);      
+        $startdate =  new Carbon($schedule->start);
+        $end = new Carbon($schedule->end);
+        $allsessions = $schedule->timeblocks->sortBy("start");
+       
+        $everydate = generateDateRange($startdate, $end);
+        $startdate =  new Carbon($schedule->start);
+        $form_defaults = array(
+            "startdate"=> $startdate->format('Y-m-d'), 
+            "starttime"=>$startdate->format('H:i:s'), 
+            "endtime"=>$end->format('H:i:s')
+        );
+        return view('timeblocks.create')->with('schedule', $schedule)->with('form_defaults', $form_defaults)->with('everydate', $everydate)->with('allsessions', $allsessions);
     }
 
     /**
@@ -40,7 +49,32 @@ class TimeblocksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'date' => 'required',
+            'start' => 'required',
+            'end' => 'required'
+        ]);
+
+        
+        $start =  $request->input('date'). " " .$request->input('start');
+        $end =  $request->input('date'). " " .$request->input('end');
+        $id = $request->input('schedule_id');
+        //create event
+        $timeblock = new Timeblock;
+        $timeblock->name = $request->input('name');
+        $timeblock->schedule_id = $request->input('scheduleid');
+        $timeblock->start = $start;
+        $timeblock->end = $end;
+       $timeblock->save();
+
+       $schedule = Schedule::findOrFail($timeblock->schedule_id);
+       $start = new Carbon($schedule->start);
+       $end = new Carbon($schedule->end);
+       $everydate = generateDateRange($start, $end);
+       $allsessions = $schedule->timeblocks->sortBy("start");
+
+       return redirect('calendars/'. $schedule->id . "/modify")->with('schedule', $schedule)->with('everydate', $everydate)->with('allsessions', $allsessions)->with('success', 'game session created');
     }
 
     /**
@@ -54,9 +88,8 @@ class TimeblocksController extends Controller
         $schedule = Schedule::findOrFail($id);
         $start = new Carbon($schedule->start);
         $end = new Carbon($schedule->end);
-       
         $everydate = generateDateRange($start, $end);
-        $allsessions = $schedule->timeblocks;
+        $allsessions = $schedule->timeblocks->sortBy("start");
 
         return view('timeblocks.show')->with('schedule', $schedule)->with('everydate', $everydate)->with('allsessions', $allsessions);
     }
@@ -69,7 +102,19 @@ class TimeblocksController extends Controller
      */
     public function edit($id)
     {
-        //
+        $timeblock = Timeblock::findOrFail($id);
+            
+        $startdate = new Carbon($timeblock->start);
+        $end = new Carbon($timeblock->end);
+
+        $form_defaults = array(
+            "startdate"=> $startdate->format('Y-m-d'), 
+            "starttime"=>$startdate->format('H:i:s'), 
+            "endtime"=>$end->format('H:i:s')
+        );
+
+        return view('timeblocks.edit')->with('timeblock', $timeblock)->with('form_defaults', $form_defaults);
+
     }
 
     /**
@@ -81,7 +126,30 @@ class TimeblocksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'date' => 'required',
+            'start' => 'required',
+            'end' => 'required'
+        ]);
+
+        $start =  $request->input('date'). " " .$request->input('start');
+        $end =  $request->input('date'). " " .$request->input('end');
+        //$id = $request->input('schedule_id');
+        //create event
+        $timeblock = Timeblock::find($id);
+        $timeblock->name = $request->input('name');
+        $timeblock->start = $start;
+        $timeblock->end = $end;
+       $timeblock->save();
+
+       $schedule = Schedule::findOrFail($timeblock->schedule_id);
+       $start = new Carbon($schedule->start);
+       $end = new Carbon($schedule->end);
+       $everydate = generateDateRange($start, $end);
+       $allsessions = $schedule->timeblocks->sortBy("start");
+
+       return redirect('calendars/'. $schedule->id . "/modify")->with('schedule', $schedule)->with('everydate', $everydate)->with('allsessions', $allsessions)->with('success', 'game session saved');
     }
 
     /**
@@ -92,6 +160,15 @@ class TimeblocksController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $timeblock = Timeblock::find($id);
+        $schedule = Schedule::findOrFail($timeblock->schedule_id);
+        $start = new Carbon($schedule->start);
+        $end = new Carbon($schedule->end);
+        $everydate = generateDateRange($start, $end);
+        $allsessions = $schedule->timeblocks->sortBy("start");
+
+        $timeblock->delete();
+        return redirect('calendars/'. $schedule->id . "/modify")->with('schedule', $schedule)->with('everydate', $everydate)->with('allsessions', $allsessions)->with('success', 'Gameblock Removed');
+        //return redirect(URL::previous() )->with('success', 'Event Removed');
     }
 }

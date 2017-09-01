@@ -44,4 +44,8 @@
         {!!Form::close()!!}
 
     @endif
+    <br>
+    @foreach($game->timeblocks as $timeblock)
+        <h4>{{$timeblock->name}}</h4>
+    @endforeach
 @endsection

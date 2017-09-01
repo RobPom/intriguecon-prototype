@@ -27,6 +27,7 @@ Route::delete('/calendars/{timeblockid}/delete', 'TimeblocksController@destroy')
 Route::resource('articles', 'ArticlesController');
 Route::resource('games', 'GamesController');
 Route::resource('events', 'SchedulesController');
+Route::resource('locations', 'LocationsController');
 
 Auth::routes();
 Route::get('/dashboard', 'DashboardController@index');

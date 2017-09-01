@@ -13,4 +13,9 @@ class Game extends Model
     //Timestamps
     public $timestamps = true;
 
+    public function timeblocks() {
+        return $this->belongsToMany(Timeblock::class);
+    }
+
 }
+

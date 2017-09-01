@@ -39,18 +39,12 @@ if(count($allsessions) === 0){
   echo "<h4>add a time block to the calendar.</h4>";
 } else {
   echo "<table class='table'>";
-  foreach($everydate as $day){
-      $day = new Carbon($day);
-     
-      
-      echo "<tr><th><h4>". $day->format('l') . " ". $day->format('jS') ."</h4></th></tr>";
       
       foreach($allsessions as $session){
           $session_start = new Carbon($session->start);
           $session_end = new Carbon($session->end);
 
-        if($session_start->format('l') == $day->format('l')){
-              echo "<tr><td>". $session->name. " - ". $session_start->format('g:ia') . " to ". $session_end->format('g:ia') ."</td>";
+              echo "<tr><td>". $session->name. " - ". $session_start->format('l') . " " . $session_start->format('g:ia') . " to ". $session_end->format('g:ia') ."</td>";
               ?>
               @if(!Auth::guest())
                   <td>
@@ -63,10 +57,10 @@ if(count($allsessions) === 0){
                 @endif
                 </tr>
               <?php
-        }
+
       }
       echo "</tr>";
-  }
+
    echo "</table>";
 }
 ?>

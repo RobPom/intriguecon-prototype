@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use App\Timeblocks;
 use App\Schedule;
 use DateTime;
-use DatePeriod;
-use DateInterval;
+use Carbon;
 
 class SchedulesController extends Controller
 {
@@ -95,9 +94,15 @@ class SchedulesController extends Controller
      */
     public function show($id)
     {
-        $schedule = Schedule::findOrFail($id);
+        $schedule = Schedule::findOrFail($id);      
+        $startdate =  new Carbon($schedule->start);
+        $end = new Carbon($schedule->end);
+        $allsessions = $schedule->timeblocks->sortBy("start");
+       
+        $everydate = generateDateRange($startdate, $end);
+        $startdate =  new Carbon($schedule->start);
         
-        return view('schedules.show')->with('schedule', $schedule);
+        return view('schedules.show')->with('schedule', $schedule)->with('everydate', $everydate)->with('allsessions', $allsessions);
         
     }
 

@@ -2,6 +2,6 @@
 
 @section('content')
 
-@include('timeblocks.showinsert')
+add this to the calendar
 
 @endsection

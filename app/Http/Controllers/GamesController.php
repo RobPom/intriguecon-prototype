@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Game;
 use App\User;
+use App\Schdule;
+use App\Timeblocks;
 
 class GamesController extends Controller
 {

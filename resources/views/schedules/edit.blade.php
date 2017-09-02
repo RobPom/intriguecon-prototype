@@ -10,17 +10,16 @@
 
         <div class="form-group">
             {{Form::Label('startdate', 'Start Date')}}
-            {{Form::date('startdate', \Carbon\Carbon::now())}}
+            {{Form::date('startdate', $startdate->format('Y-m-d'))}}
             {{Form::Label('starttime', 'Time')}}
-            {{Form::time('starttime', date('H:i:s', '43200'))}}
+            {{Form::time('starttime', $startdate->format('H:i:s'))}}
         </div>
         <div class="form-group">
             {{Form::Label('enddate', 'End Date')}}
-            {{Form::date('enddate', \Carbon\Carbon::now())}}
+            {{Form::date('enddate', $enddate->format('Y-m-d'))}}
             {{Form::Label('endtime', 'Time')}}
-            {{Form::time('endtime', date('H:i:s', '57600'))}}
+            {{Form::time('endtime', $enddate->format('H:i:s'))}}
         </div>
-        
         <div class="form-group">
             {{Form::Label('description', 'Description')}}
             {{Form::textarea('description', $event->description, ['id' => 'article-ckeditor', 'class' => 'form-control', 'placeholder' => 'A longer description of the game'])}}
@@ -33,11 +32,13 @@
                 </div>
                 <div class="col-md-10 col-sm-10">
                     {{Form::Label('event_image', 'Change Image')}}
-                    {{Form::file('event_image')}}
+                    {{Form::file('event_image',['class' => 'filestyle', 'data-text' => "Find File"])}}
                 </div>
             </div>
         </div>
         {{Form::hidden('_method', 'PUT')}}
         {{Form::submit('Submit', ['class' => 'btn btn-primary'])}}
     {!! Form::close() !!}
+
+    
 @endsection

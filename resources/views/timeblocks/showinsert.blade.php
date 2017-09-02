@@ -22,24 +22,30 @@ $everydate = generateDateRange($startdate, $end);
         </div>
     </div>
 </div>
-    <div class="panel-body">
-        <h4>{!! date("F jS", strtotime($schedule->start))!!} to {!! date("jS, Y", strtotime($schedule->end))!!}</h4>
-        <?php
-        foreach($everydate as $day){
-            $day = new Carbon($day);
-            echo "<h4>". $day->format('l') . "</h4><br>";
-            echo "<ul>";
-            foreach($sessions as $session){
-                $session_start = new Carbon($session->start);
-                $session_end = new Carbon($session->end);
-
-            if($session_start->format('l') == $day->format('l')){
-                    echo "<li>". $session->name. " - ". $session_start->format('g:ia') . " to ". $session_end->format('g:ia') ."</li><br>";
-            
+    
+    <div class="panel-body">            
+            <?php
+            if(count($sessions) > 0){
+                foreach($everydate as $day){
+                    $day = new Carbon($day);
+                    echo "<div class='col-md-4'>";
+                    echo "<div class='panel panel-default'>";
+                    echo "<div class='panel-heading'><h4>". $day->format('l')."<small> ". $day->format('F jS'). "</small></h4></div>";
+                    echo "<div class='panel-body'>";
+                    echo "<div class='list-group'>";
+                    foreach($sessions as $session){
+                        $session_start = new Carbon($session->start);
+                        $session_end = new Carbon($session->end);
+                        if($session_start->format('l') == $day->format('l')){
+                             echo "<a href='#' class='list-group-item list-group-item-action'>". $session->name. " - ". $session_start->format('g:ia') . " to ". $session_end->format('g:ia') ."</a>";
+                        }
+                    }
+                    echo "</div></div></div></div>";
                 }
-                echo "</ul>";
+            } else {
+                echo "<p>Nothing is scheduled</p>";
             }
-        }
-        ?>
+            ?>
+        
     </div>
 </div>

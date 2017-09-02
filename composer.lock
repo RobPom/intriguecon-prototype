@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "69a3be7f38d8910e45bb64fec99833bc",
+    "content-hash": "6cc20b6b4120ca6c4fbf8e85cac5c8d7",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1364,6 +1364,51 @@
                 "shell"
             ],
             "time": "2017-07-29T19:30:02+00:00"
+        },
+        {
+            "name": "qntm/laravel-materialize-sass",
+            "version": "v0.97.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nickgerman/laravel-materialize-sass.git",
+                "reference": "65ea0ccaad096da62cf0bb856d45d3ac603789fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nickgerman/laravel-materialize-sass/zipball/65ea0ccaad096da62cf0bb856d45d3ac603789fc",
+                "reference": "65ea0ccaad096da62cf0bb856d45d3ac603789fc",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Qntm\\LaravelMaterializeSass\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nick",
+                    "email": "apps.inundated@gmail.com"
+                }
+            ],
+            "description": "Add Materialize CSS Framework Source to Laravel",
+            "keywords": [
+                "css",
+                "css framework",
+                "laravel",
+                "material design",
+                "materialize",
+                "sass"
+            ],
+            "time": "2016-07-25T09:07:01+00:00"
         },
         {
             "name": "ramsey/uuid",

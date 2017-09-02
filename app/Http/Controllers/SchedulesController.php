@@ -115,8 +115,10 @@ class SchedulesController extends Controller
     public function edit($id)
     {
         $event = Schedule::find($id);
-        $startdate = new DateTime($event->start);  
-        return view('schedules.edit')->with('event', $event);
+        //$startdate = new DateTime($event->start);  
+        $startdate = new Carbon($event->start);
+        $enddate = new Carbon($event->end);
+        return view('schedules.edit')->with('event', $event)->with('startdate', $startdate)->with('enddate', $enddate);
     }
 
     /**
